@@ -2,7 +2,7 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
-app.on('connection', socket=>{
+io.on('connection', socket=>{
 	console.log('connected');
 	socket.emit('play');
 	setTimeout(()=>{
