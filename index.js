@@ -4,11 +4,27 @@ const io = require('socket.io')(http);
 
 io.on('connection', socket=>{
 	console.log('connected');
-	socket.emit('play');
+
+	socket.on('play',()=>{
+		console.log('play')
+	});
+
+
+	socket.on('pause',()=>{
+		console.log('pause')
+	});
+
+	socket.on('seek',(data)=>{
+		console.log(`seeking to ${data.position} at ${data.timestamp}`);
+	});
+
+
+
+	// socket.emit('play');
 	setTimeout(()=>{
-		socket.emit('pause');
+		socket.emit('play');
 		socket.emit('seek',120);
-	},3000);
+	},5000);
 	socket.on('disconnect',()=>console.log('disconnected'));	
 })
 
