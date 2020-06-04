@@ -2,29 +2,37 @@ const app = require('express')();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+// setInterval(()=>{
+// 	console.log('play');
+// 	console.log('seek',120);
+// 	setTimeout(()=>{
+// 		console.log('pause')
+// 	},5000)
+// },5000);
+
 io.on('connection', socket=>{
 	console.log('connected');
 
-	socket.on('play',()=>{
+	socket.on('play',(data)=>{
 		console.log('play')
 	});
 
 
-	socket.on('pause',()=>{
+	socket.on('pause',(data)=>{
 		console.log('pause')
 	});
 
 	socket.on('seek',(data)=>{
-		console.log(`seeking to ${data.position} at ${data.timestamp}`);
+		console.log(`seeking to ${data.position} at ${data.last_updated}`);
 	});
 
-
-
-	// socket.emit('play');
 	setTimeout(()=>{
-		socket.emit('play');
 		socket.emit('seek',120);
-	},5000);
+		setTimeout(()=>{
+			socket.emit('pause')
+		},5000)
+	},10000);
+	
 	socket.on('disconnect',()=>console.log('disconnected'));	
 })
 
